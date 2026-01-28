@@ -33,12 +33,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/ui-api-mcp.git"
+    "url": "https://github.com/tony2026m/pro-components-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/ui-api-mcp/issues"
+    "url": "https://github.com/tony2026m/pro-components-mcp/issues"
   },
-  "homepage": "https://github.com/yourusername/ui-api-mcp#readme",
+  "homepage": "https://github.com/tony2026m/pro-components-mcp/blob/main/README.md",
   "license": "MIT",
   "scripts": {
     "start": "node dist/cli.js",
@@ -46,7 +46,6 @@
     "dev": "tsup --watch",
     "pretest": "tsup",
     "test": "tsx test-server.ts",
-    "extract": "tsx cli.ts extract ../ant-design",
     "inspector": "pnpm build & npx @modelcontextprotocol/inspector node dist/cli.js",
     "prepublishOnly": "pnpm build"
   },
