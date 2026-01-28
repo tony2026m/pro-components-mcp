@@ -1,4 +1,4 @@
-# @tony2026m/ui-api-mcp
+# @tony2026m/pro-components-mcp
 
 [![npm version](https://img.shields.io/npm/v/@tony-m/ui-api-mcp.svg)](https://www.npmjs.com/package/@tony-m/ui-api-mcp)
 [![license](https://img.shields.io/npm/l/@tony-m/ui-api-mcp.svg)](https://github.com/yourusername/ui-api-mcp/blob/main/LICENSE)
