@@ -1,0 +1,15 @@
+{
+  "script": {
+    "doc_root": {
+      "pro": "../componentDocs/pro-components/"
+    }
+  },
+  "py": {
+
+  },
+  "js": {
+    "doc_root": {
+      "pro": "../componentDocs/pro-components/"
+    }
+  }
+}

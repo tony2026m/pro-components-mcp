@@ -1,0 +1,156 @@
+[
+    {
+        "name": "LoginForm/Page 登录表单",
+        "dirName": "login-form",
+        "description": "LoginForm 和 LoginFormPage 是 ProForm 的变体，两者是为了适应常见的登录表单布局来专门实现，适用于各类登录场景，降低布局的压力。",
+        "whenToUse": "",
+        "atomId": "LoginForm,PageForm"
+    },
+    {
+        "name": "StepsForm 分步表单",
+        "dirName": "steps-form",
+        "description": "StepsForm 通过 Provider 来管理子表单的数据，每个子表单都是完整的数据，在 StepsForm 组合成最后的数据。同时自带了一个进度条和管理进度条的相关 API.\n\n> StepsForm 继承了 Form.Provider ，相关文档可以看[这里](https://ant.design/components/form-cn/#Form.Provider)，转化 moment 的值是 ProForm 提供的功能，所以 `onFormFinish` 和 `onFormChange` 其中的值都是未经转化的。",
+        "whenToUse": "",
+        "atomId": "StepsForm"
+    },
+    {
+        "name": "ProForm 高级表单",
+        "dirName": "form",
+        "description": "ProForm 在原来的 Form 的基础上增加了一些语法糖和更多的布局设置，帮助我们快速地开发一个表单，同时添加了一些默认行为，让我们的表单默认好用。\n\n分步表单、Modal 表单、Drawer 表单、查询表单、轻量筛选等多种 layout 可以覆盖大部分的使用场景，让我们脱离复杂而且繁琐的表单布局工作，用更少的代码完成更多的功能。\n\n- 如果想要设置默认值，请使用 `initialValues`，任何直接使用组件 `value` 和 `onChange` 的方式都有可能导致值绑定失效\n- 如果想要表单联动或者做一些依赖，可以使用 render props 模式，ProFormDependency 绝对是最好的选择\n- ProForm 的 onFinish 与 antd 的 Form 不同，支持 Promise，如果你正常返回会自动为你设置按钮的加载效果\n- 如果想要监听某个值，建议使用 `onValuesChange`。保持单向的数据流无论对开发者还是维护者都大有裨益\n- ProForm 没有黑科技，只是 antd 的 Form 的封装，如果要使用自定义的组件可以用 Form.Item 包裹后使用，支持混用\n\n```tsx | pure\n// 设置整体默认值\n<ProForm initialValues={obj} />\n\n// 设置单个控件的\n<ProForm\n onValuesChange={(changeValues) => console.log(changeValues)}\n>\n  <ProFormText initialValue=\"prop\"/>\n</ProForm>\n\n// 相互依赖的组件联动\n<ProForm>\n  <Form.Item noStyle shouldUpdate>\n    {(form) => {\n      return (\n        <ProFormSelect\n          options={[\n            {\n              value: \"chapter\",\n              label: \"盖章后生效\",\n            },\n          ]}\n          width=\"md\"\n          name=\"useMode\"\n          label={`与${form.getFieldValue(\"name\")}合同约定生效方式`}\n        />\n      );\n    }}\n  </Form.Item>\n</ProForm>;\n\n\n// 使用自定义组件\n<ProForm>\n  <Form.Item name=\"switch\" label=\"Switch\" valuePropName=\"checked\">\n    <Switch />\n  </Form.Item>\n</ProForm>\n```",
+        "whenToUse": "当你想快速实现一个表单但不想花太多时间去布局时 ProForm 是最好的选择。\n\nProForm 是基于 antd Form 的可降级封装，与 antd 功能完全对齐，但是在其之上还增加一些预设行为和多种布局。这些布局之间可以无缝切换，并且拥有公共的 API。\n\n| 布局                                            | 使用场景                                                                              |\n| ----------------------------------------------- | ------------------------------------------------------------------------------------- |\n| [ProForm](/components/form#proform)             | 标准 Form，增加了 `onFinish` 中自动 `loading` 和根据 `request` 自动获取默认值的功能。 |\n| [ModalForm\\|DrawerForm](/components/modal-form) | 在 ProForm 的基础上增加了 `trigger` ，无需维护 `open` 状态。                          |\n| [QueryFilter](/components/query-filter)         | 一般用于作为筛选表单，需要配合其他数据展示组件使用。                                  |\n| [LightFilter](/components/query-filter)         | 一般用于作为行内内置的筛选，比如卡片操作栏和表格操作栏。                              |\n| [StepsForm](/components/steps-form)             | 分步表单，需要配置 StepForm 使用。                                                    |\n\n- Form 的 layout 切换[外部示例代码]\n\t- description: \n\t- src: /form/layout-change.tsx\n\t- thumbnail: ",
+        "atomId": "ProForm"
+    },
+    {
+        "name": "ProFormFields 表单项",
+        "dirName": "field-set",
+        "description": "一个表单除了 Form 之外还是需要一系列的表单项，ProForm 自带了数量可观的表单项，这些组件本质上是 Form.Item 和 组件的结合，我们可以把他们当成一个 FormItem 来使用，并且支持各种 `props`。每个表单项都支持 `fieldProps` 属性来支持设置输入组件的`props`。 我们支持了 `placeholder` 的透传，你可以直接在组件上设置 `placeholder`。\n\n每个表单项同时也支持了 `readonly` ，不同的组件会有不同的只读样式，与 `disable` 相比 `readonly` 展示更加友好。生成的 dom 也更小，比如 ProFormDigit 会自动格式化小数位数。\n\nProFormText 是 FormItem + Input 的产物，可以类比于以下的代码：\n\n```tsx | pure\nconst ProFormText = (props) => {\n  return (\n    <ProForm.Item {...props}>\n      <Input placeholder={props.placeholder} {...props.fieldProps} />\n    </ProForm.Item>\n  );\n};\n```\n\n所以我们给 ProFormText 设置的 props 其实是 Form.Item 的，fieldProps 才是包含的组件的，要切记。",
+        "whenToUse": "",
+        "atomId": "ProFormText,ProFormDigit,ProFormText.Password,ProFormTextArea,ProFormCaptcha,ProFormDatePicker,ProFormDateTimePicker,ProFormDateRangePicker,ProFormDateTimeRangePicker,ProFormSelect,ProFormTreeSelect,ProFormCheckbox,ProFormRadio.Group,ProFormSlider,ProFormSwitch,ProFormUploadButton,ProFormUploadDragger,ProFormMoney,ProFormSegmented"
+    },
+    {
+        "name": "CheckCard 多选卡片",
+        "dirName": "check-card",
+        "description": "集合多种相关联说明信息，并且可被选择的卡片。特点：\n\n- ① 可容纳多种相关联说明信息，如标题、描述、图片、标签等\n- ② 有明显边界\n- ③ 有明显选中态",
+        "whenToUse": "- 需要展示被选择对象的多种说明信息时\n- 被选择对象的数量不多时",
+        "atomId": "CheckCard"
+    },
+    {
+        "name": "Schema Form JSON 表单",
+        "dirName": "schema-form",
+        "description": "SchemaForm 是根据 JSON Schema 来生成表单的工具。SchemaForm 会根据 valueType 来映射成不同的[表单项](/components/schema)。\n\n> **Tips**： 如您遇到卡顿问题或有更高的性能要求可[参考示例](#高性能代码示例)使用",
+        "whenToUse": "",
+        "atomId": "BetaSchemaForm"
+    },
+    {
+        "name": "ProCard 高级卡片",
+        "dirName": "card",
+        "description": "页内容器卡片，提供标准卡片样式，卡片切分以及栅格布局能力。ProCard 创造性地将 `Col`, `Row`, `Card`, `Tabs` 等组件实现结合在一起，让你仅用一个组件就能够完成卡片相关的各种布局。\n\n- 如果你还需要结合图表一起使用，可以参考 `StatisticCard` 指标卡组件，他是 ProCard 的进一步封装。\n- 若您也需要封装 `ProCard`，注意需要透出 `isProCard=true` 的静态属性让 ProCard 可以识别为同一个元素。",
+        "whenToUse": "- 需要一个标准卡片容纳内容时。\n- 需要多个卡片栅格，gutter 布局时。\n- 需要进行卡片内切分布局时。\n- 需要卡片可折叠时。",
+        "atomId": "ProCard"
+    },
+    {
+        "name": "StatisticCard 指标卡",
+        "dirName": "statistic-card",
+        "description": "指标卡结合统计数值用于展示某主题的核心指标，结合 [Ant Design Charts](https://charts.ant.design/) 图表库丰富数值内容，满足大多数数值展示的场景。\n\n> 注意 demo 中的所有图表示例可以到 charts 的官网中找到，这里不再给出实际代码示例，仅以图片进行代替，所以相关交互是没有的。\n\n> 若有内容撑开卡片的情况请设置内容宽度为 100% 或设置定宽。",
+        "whenToUse": "- 1）在页面内的重要位置，展示重要信息；\n- 2）在概览页面展示系统功能。",
+        "atomId": "StatisticCard"
+    },
+    {
+        "name": "ProFormList 数据结构化",
+        "dirName": "group",
+        "description": "我们还提供了用来进行结构化数据的录入:\n\n- ProFormList 录入结构化的多维数组数据。\n- ProFormFieldSet 录入结构化的一维数组数据。\n- ProFormDependency 数据依赖的相关组件",
+        "whenToUse": "",
+        "atomId": "ProFormList"
+    },
+    {
+        "name": "ProSkeleton 骨架屏",
+        "dirName": "skeleton",
+        "description": "> 该组件为内部组件，请勿直接使用。\n\n页面级别的骨架屏，不支持自定义",
+        "whenToUse": "",
+        "atomId": "ProSkeleton"
+    },
+    {
+        "name": "ProLayout 高级布局",
+        "dirName": "layout",
+        "description": "ProLayout 可以提供一个标准又不失灵活的中后台标准布局，同时提供一键切换布局形态、自动生成菜单等功能。与 PageContainer 配合使用可以自动生成面包屑、页面标题，并且提供低成本方案接入页脚工具栏。",
+        "whenToUse": "页面中需要承载内容时，可以使用 ProLayout 来减少布局成本。",
+        "atomId": "ProLayout"
+    },
+    {
+        "name": "Query/LightFilter 筛选表单",
+        "dirName": "query-filter",
+        "description": "有些是时候表单要与别的组件组合使用，常见的有 Table ，List 等，这时候就需要一些特殊形态的表单。QueryFilter 和 LightFilter 解决了配合组件使用的问题，避免了复杂的样式设置。ProTable 中默认 支持了 QueryFilter 和 LightFilter 作为自己的筛选表单。",
+        "whenToUse": "",
+        "atomId": "QueryFilter,LightFilter"
+    },
+    {
+        "name": "ProFormDependency 数据联动",
+        "dirName": "dependency",
+        "description": "Form 中的数据联动非常常见，所以我们封装了一个组件来进行数据处理。",
+        "whenToUse": "",
+        "atomId": "ProFormDependency"
+    },
+    {
+        "name": "ProDescriptions 定义列表",
+        "dirName": "descriptions",
+        "description": "",
+        "whenToUse": "高级描述列表组件，提供一个更加方便快速的方案来构建描述列表。\n\nProDescriptions 的诞生是为了解决项目中需要写很多 Descriptions 的样板代码的问题，所以在其中封装了很多常用的逻辑。在 React 中写一个 Descriptions 免不了需要定义一些雷同的属性。所以 ProDescriptions 默认封装了请求网络，columns 列展示的逻辑。\n\n比如 ProDescriptions 封装了请求网络的行为，ProDescriptions 会将 props.params 中的数据默认带入到请求中，如果接口恰好与我们的定义相同，实现一个查询会非常简单。\n\n```tsx | pure\nimport  request from 'umi-request';\n\nconst fetchData = (params) =>\n  request<{\n    data: T{};\n  }>('https://proapi.azurewebsites.net/github/issues', {\n    params,\n  });\n\nconst keyWords = \"Ant Design\"\n\n<ProDescriptions<T,U> request={fetchData} />;\n```\n\n我们约定 request 拥有一个参数， `params` 会自带 props 中的 `params` 。类型如下:\n\n```tsx | pure\n(params: U) => RequestData;\n```\n\n对于请求回来的结果，ProDescriptions 也有一些约定，类型如下：\n\n```tsx | pure\ninterface RequestData {\n  data: Datum{};\n  success: boolean;\n}\n```",
+        "atomId": "ProDescriptions"
+    },
+    {
+        "name": "ProField 原子组件",
+        "dirName": "field",
+        "description": "> 该组件为内部组件，请勿直接使用。\n\n原子信息组件，统一 ProForm、ProTable、ProList、Filter 等组件里面的字段定义。",
+        "whenToUse": "",
+        "atomId": ""
+    },
+    {
+        "name": "DragSortTable 拖动排序表格",
+        "dirName": "drag-sort-table",
+        "description": "`DragSortTable`排序采用的[dnd-kit](https://dndkit.com/)，需要提供`rowKey`来确定数据的唯一值，否则不能正常工作。",
+        "whenToUse": "",
+        "atomId": "DragSortTable"
+    },
+    {
+        "name": "ProTable 高级表格",
+        "dirName": "table",
+        "description": "ProTable 的诞生是为了解决项目中需要写很多 table 的样板代码的问题，所以在其中封装了很多常用的逻辑。这些封装可以简单的分类为预设行为与预设逻辑。\n\n依托于 ProForm 的能力，ProForm 拥有多种形态，可以切换查询表单类型，设置变形成为一个简单的 Form 表单，执行新建等功能。\n\n![layout\n](https://gw.alipayobjects.com/zos/antfincdn/Hw%26ryTueTW/bianzu%2525204.png)\n\n若您是内网用户，欢迎使用我们的 [TechUI Studio](https://techui-studio.antfin-inc.com/) 可视化配置生成初始代码。",
+        "whenToUse": "当你的表格需要与服务端进行交互或者需要多种单元格样式时，ProTable 是不二选择。",
+        "atomId": "ProTable"
+    },
+    {
+        "name": "PageContainer 页容器",
+        "dirName": "page-container",
+        "description": "PageContainer 是一个页面容器组件，提供了统一的页面布局结构。它包含了页面标题、面包屑导航、页面操作区等标准化的页面元素，让您可以快速构建具有一致性的页面布局。\n\n- 自动处理页面标题和面包屑导航\n- 支持页面级别的操作按钮和工具栏\n- 提供标准化的页面布局结构\n- 支持水印、加载状态等高级功能",
+        "whenToUse": "- 需要统一的页面标题、面包屑导航时\n- 需要页面级别的操作按钮时\n- 需要标准化的页面布局时\n- 需要页面级别的加载状态时\n- 需要页面水印功能时",
+        "atomId": "PageContainer"
+    },
+    {
+        "name": "PageHeader 页头",
+        "dirName": "page-header",
+        "description": "页头位于页容器中，页容器顶部，起到了内容概览和引导页级操作的作用。包括由面包屑、标题、页面内容简介、页面级操作等、页面级导航组成。",
+        "whenToUse": "当需要使用户快速理解当前页是什么以及方便用户使用页面功能时使用，通常也可被用作页面间导航。",
+        "atomId": ""
+    },
+    {
+        "name": "ProList 高级列表",
+        "dirName": "list",
+        "description": "",
+        "whenToUse": "基于 ProTable 实现，可以认为是 ProTable 的一个特例，在完成一个标准的列表时即可使用。",
+        "atomId": "ProList"
+    },
+    {
+        "name": "Modal/Drawer 浮层表单",
+        "dirName": "modal-form",
+        "description": "ModalForm 和 DrawerForm 是 ProForm 的一个变体，本质上仍然是个表单。所以无法通过 `footer` 来自定义页脚，如果要定义页脚需要使用 `submitter.render` 来进行自定义。这两个表单的表现与 ProForm 相同，可以从 ProForm 直接修改而来。\n\nModalForm 和 DrawerForm 都提供了 trigger 来减少 state 的使用，如果你需要使用 state 来控制可以使用 `open` 和 `onOpenChange` 来控制打开与关闭。",
+        "whenToUse": "",
+        "atomId": "ModalForm,DrawerForm"
+    },
+    {
+        "name": "EditableProTable 可编辑表格",
+        "dirName": "editable-table",
+        "description": "可编辑表格 EditableProTable 与 ProTable 的功能基本相同，为了方便使用 EditableProTable 增加了一些预设，关掉了查询表单和操作栏，同时修改了 value 和 onChange 使其可以方便的继承到 antd 的 Form 中。",
+        "whenToUse": "",
+        "atomId": "EditableProTable"
+    }
+]
