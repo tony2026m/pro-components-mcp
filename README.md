@@ -58,7 +58,7 @@ npx @tony2026m/pro-components-mcp
 
 # 或全局安装后运行
 npm install -g @tony2026m/pro-components-mcp
-ui-api-mcp
+pro-components-mcp
 ```
 
 ## 🛠️ 可用工具
