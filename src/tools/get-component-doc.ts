@@ -10,10 +10,10 @@ const registryTool = (server: McpServer) => {
 适用场景：
 1. 用户询问如何使用特定组件
 2. 用户需要查看该组件的 api、props 属性，何时使用，示例代码等
-
-参数说明：componentName(组件名称)
 `,
-    { componentName: z.string() },
+    { 
+      componentName: z.string().describe("Pro-Components 组件名称，例如：ProTable、ProForm、ProCard 等")
+    },
     async ({ componentName }) => {
       const documentation = await getComponentDocumentation(componentName);
       return {

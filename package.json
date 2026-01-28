@@ -1,8 +1,10 @@
 {
   "name": "@tony2026m/pro-components-mcp",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "An MCP service for Antd Pro components query | 一个减少 Ant Design Pro 组件代码生成幻觉的 MCP 服务，包含系统提示词、组件文档、API 文档、代码示例和更新日志查询",
-  "bin": "dist/cli.js",
+  "bin": {
+    "pro-components-mcp": "dist/cli.js"
+  },
   "type": "module",
   "author": {
     "name": "tony2026m",
@@ -51,7 +53,7 @@
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@modelcontextprotocol/sdk": "^1.25.3",
     "node-cache": "^5.1.2",
     "to-vfile": "^8.0.0",
     "vfile-matter": "^5.0.1",

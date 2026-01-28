@@ -15,6 +15,21 @@
 - 📝 **更新日志查询** - 了解组件的版本变更历史
 - 🎯 **系统提示词** - 内置专业的 ProComponents 使用指导
 
+## 什么时候需要自行提取组件文档？
+
+1. 你想使用最新的组件文档
+2. 你想使用其他版本的组件文档
+
+### 提取组件文档
+
+```bash
+# 克隆 Ant Design 仓库
+git clone https://github.com/ant-design/pro-components.git ./.temp/pro-components --depth 1 --branch master --single-branch --filter=blob:none
+
+# 在当前目录执行提取文档命令
+npx @tony2026m/pro-components-mcp extract [pro-components repo path]  #默认提取路径为 ./.temp/pro-components
+```
+
 ## 🚀 快速开始
 
 ### 作为 MCP 服务器使用（推荐）

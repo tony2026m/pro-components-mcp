@@ -5,7 +5,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 
 const transport = new StdioClientTransport({
   command: "node",
-  args: ["/Users/tony/workspace/project/mcp/ui-api-mcp/dist/cli.js"],
+  args: ["D:\\workspace\\mcp\\pro-components-mcp\\dist\\cli.js"],
 });
 
 const client = new Client({

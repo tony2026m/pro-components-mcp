@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@modelcontextprotocol/sdk':
-        specifier: ^1.0.4
+        specifier: ^1.25.3
         version: 1.25.3(hono@4.11.5)(zod@3.25.76)
       node-cache:
         specifier: ^5.1.2
