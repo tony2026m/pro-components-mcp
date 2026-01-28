@@ -30,6 +30,7 @@
     "dist",
     "componentDocs",
     "script",
+    "config.json",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
