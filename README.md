@@ -1,4 +1,4 @@
-# @tony-m/ui-api-mcp
+# @tony2026m/ui-api-mcp
 
 [![npm version](https://img.shields.io/npm/v/@tony-m/ui-api-mcp.svg)](https://www.npmjs.com/package/@tony-m/ui-api-mcp)
 [![license](https://img.shields.io/npm/l/@tony-m/ui-api-mcp.svg)](https://github.com/yourusername/ui-api-mcp/blob/main/LICENSE)
@@ -91,7 +91,7 @@ MCP 服务器提供以下工具：
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/ui-api-mcp.git
+git clone https://github.com/tony2026m/pro-components-mcp.git
 cd pro-components-mcp
 
 # 安装依赖
