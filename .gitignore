@@ -1,8 +1,15 @@
-/.temp/
-/.venv/
-/node_modules/
+# 测试和构建
+node_modules/
+.temp/
+.venv/
+
 .DS_Store
 .idea
 dist/
+
+# Git
+.git/
+
+# others
 /PUBLISH_GUIDE.md
 /PUBLISH_SUMMARY.md
