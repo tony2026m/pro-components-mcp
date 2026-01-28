@@ -27,6 +27,7 @@
   "files": [
     "dist",
     "componentDocs",
+    "script",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
