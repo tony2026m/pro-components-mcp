@@ -1,7 +1,8 @@
 # @tony2026m/pro-components-mcp
 
-[![npm version](https://img.shields.io/npm/v/@tony-m/ui-api-mcp.svg)](https://www.npmjs.com/package/@tony-m/ui-api-mcp)
-[![license](https://img.shields.io/npm/l/@tony-m/ui-api-mcp.svg)](https://github.com/yourusername/ui-api-mcp/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@tony2026m/pro-components-mcp.svg)](https://www.npmjs.com/package/@tony2026m/pro-components-mcp)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Node.js version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org/)
 
 > An MCP (Model Context Protocol) service for Ant Design Pro components query | 一个减少 Ant Design Pro 组件代码生成幻觉的 MCP 服务
 
