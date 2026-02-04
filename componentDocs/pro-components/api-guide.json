@@ -2,15 +2,15 @@
     {
         "name": "ProComponents 2.0 到 3.0 迁移指南",
         "dirName": "migration-guide.md",
-        "description": "",
+        "description": "ProComponents 3.0 是一个主要版本升级，包含了一些破坏性变更。本指南将帮助你从 2.0 版本平滑迁移到 3.0 版本。",
         "whenToUse": "",
-        "atomId": ""
+        "atomId": "迁移指南,风险提示,API变更,migration-guide.md"
     },
     {
         "name": "ProComponents API 变更总结 (2.0 → 3.0)",
         "dirName": "api-changes.md",
-        "description": "",
+        "description": "ProComponents API 变更总结 (2.0 → 3.0)",
         "whenToUse": "",
-        "atomId": ""
+        "atomId": "API变更,迁移检查清单,API 变更总结 (2.0 → 3.0),API变更(2.0 → 3.0),api-changes.md"
     }
 ]

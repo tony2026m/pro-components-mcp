@@ -8,9 +8,11 @@ import {getCache, hasKey, setCache} from "./cache";
 
 const EXTRACTED_COMPONENTS_DIR = "components";
 const EXTRACTED_DEMOS_DIR = "demos";
+const EXTRACTED_GUIDE_DIR = "guide";
 
 const FILE_COMPONENTS_INDEX = 'components-index.json';
 const PRO_COMPONENTS_INFO = 'pro-components.json';
+const API_GUIDE = 'api-guide.json';
 
 // 获取当前文件所在目录的绝对路径
 const __filename = fileURLToPath(import.meta.url);
@@ -29,6 +31,8 @@ const COMPONENT_LIST = 'component_list';
 const COMPONENT_CHANGELOG = 'component_changelog';
 
 const COMPONENT_INFO = 'component_info';
+
+const GUIDES_LIST_KEY = 'guides_list';
 
 /** 加载ProComponents组件列表 */
 export async function loadComponentsList() {
@@ -53,10 +57,10 @@ export async function findComponentByName(componentName: string) {
   const components: ComponentData[] = await loadComponentsList();
   return components.find(
     (c: ComponentData) =>{
-      const components = c.atomId?.split(',')
+      const atomIds = c.atomId?.split(',')
       return (c.name.toLowerCase() === componentName.toLowerCase() ||
       c.name.toLowerCase().includes(componentName.toLowerCase()) ||
-      (components ? components.includes(componentName) : false));
+      (atomIds ? atomIds.includes(componentName) : false));
     },
   );
 }
@@ -145,5 +149,65 @@ export const getProComponentsInfo = async () => {
   } catch (error) {
     console.error(`加载Pro-Components概要信息错误: ${(error as Error).message}`);
     return "";
+  }
+};
+
+/** 加载Guides组件列表 */
+export async function loadGuidesList() {
+  try {
+    if(hasKey(GUIDES_LIST_KEY)) {
+      return getCache(GUIDES_LIST_KEY);
+    }
+    const guidesList = await readFile(join(DOC_ROOT, API_GUIDE), "utf-8");
+    const guidesListJson = JSON.parse(guidesList) as ComponentData[];
+
+    setCache(GUIDES_LIST_KEY, guidesListJson);
+
+    return guidesListJson
+  } catch (error) {
+    console.error(`加载指南列表错误: ${(error as Error).message}`);
+    return [];
+  }
+}
+
+/** 根据名称查找指南 */
+export async function findGuideByName(name: string) {
+  const guides: ComponentData[] = await loadGuidesList();
+  return guides.find(
+      (c: ComponentData) =>{
+        const atomIds = c.atomId?.split(',')
+        return (c.name.toLowerCase() === name.toLowerCase() ||
+            c.name.toLowerCase().includes(name.toLowerCase()) ||
+            (atomIds ? atomIds.includes(name) : false));
+      },
+  );
+}
+
+/** 获取 ProComponents 特定组件文档 */
+export const getGuideDocumentation = async (name: string) => {
+  if(hasKey(name)) {
+    return getCache(name);
+  }
+
+  const guide = await findGuideByName(name);
+  if (!guide) {
+    return ` "${name}" 指南文档不存在`;
+  }
+
+  const docPath = join(DOC_ROOT, EXTRACTED_GUIDE_DIR, guide.dirName);
+
+  try {
+    if (existsSync(docPath)) {
+      const docResult = await readFile(docPath, "utf-8");
+
+      setCache(name, docResult);
+
+      return docResult
+    }
+
+    return `${guide.name} 指南文档不存在`;
+  } catch (error) {
+    console.error(`获取 ${guide.name} 指南文档错误: ${(error as Error).message}`);
+    return `获取 ${guide.name} 指南文档错误: ${(error as Error).message}`;
   }
 };

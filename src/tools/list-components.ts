@@ -11,15 +11,15 @@ const registryTool = (server: McpServer) => {
 组件列表元素数据结构：
 \`ts
 export interface ComponentData {
-  // 组件名称
+  // 名称
   name: string;
-  // 组件文档所在文件夹名称
+  // 文件名称
   dirName: string;
-  // 组件描述
+  // 描述
   description: string;
-  // 何时使用组件
+  // 何时使用
   whenToUse: string;
-  // 关联组件
+  // 关联信息
   atomId: string | null;
 }
 \`

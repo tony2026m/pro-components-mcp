@@ -62,6 +62,22 @@ try {
     arguments: {},
   });
   console.log(proInfo);
+
+  // 获取指南列表
+  console.log("\n--- 获取指南列表 ---");
+  const guideList = await client.callTool({
+    name: "list-guides",
+    arguments: {},
+  });
+  console.log(guideList);
+
+  // 获取指南信息
+  console.log("\n--- 获取指南信息 ---");
+  const guideInfo = await client.callTool({
+    name: "get-guide-doc",
+    arguments: {name: 'API变更(2.0 → 3.0)'},
+  });
+  console.log(guideInfo);
 } catch (error) {
   console.error("测试过程中出错:", error);
 } finally {
