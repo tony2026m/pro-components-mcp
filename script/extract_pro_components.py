@@ -15,12 +15,16 @@ root_repo = '../.temp/pro-components'
 doc_type = 'pro-components'
 # 组件文档文件夹
 components_dir = 'components'
+# 其他文档文件夹
+docs_dir = 'docs'
 # 示例代码文件
 demos_dir = 'demos'
 # changelog文件
 changelog_file_name = 'changelog.md'
 # package文件
 package_file_name = 'package.json'
+# 指南文件
+guide_files =['api-changes.md', 'migration-guide.md']
 
 def extract_pro_components():
     """
@@ -36,6 +40,12 @@ def extract_pro_components():
 
     target_demo_path = Path(os.path.join(doc_root, demos_dir))
     target_demo_path.mkdir(parents=True, exist_ok=True)
+
+    target_guide_path = Path(os.path.join(doc_root, 'guide'))
+    target_guide_path.mkdir(parents=True, exist_ok=True)
+
+    target_playground_path = Path(os.path.join(doc_root, 'playground'))
+    target_playground_path.mkdir(parents=True, exist_ok=True)
 
     # 循环遍历路径做成api文档
     def list_all_api_docs(directory):
@@ -190,6 +200,16 @@ def extract_pro_components():
         destination_path = os.path.join(doc_root, changelog_file_name)
         shutil.copy(resource_path, destination_path)
 
+    def copy_guide():
+        shutil.rmtree(target_guide_path)  # 删除整个文件夹
+        target_guide_path.mkdir(parents=True, exist_ok=True)
+
+        for file_name in guide_files:
+            resource_path = os.path.join(root_components, docs_dir, file_name)
+            destination_path = os.path.join(target_guide_path, file_name)
+
+            shutil.copy(resource_path, destination_path)
+
     def make_pro_components_info_json():
         packagePath = os.path.join(root_repo, package_file_name)
         with open(packagePath, 'r', encoding='utf-8') as file:
@@ -210,6 +230,43 @@ def extract_pro_components():
         with open(pro_path, 'w', encoding='utf-8') as f:
             json.dump(proComponentsInfo, f, ensure_ascii=False, indent=4)
 
+    def make_guide_json(directory):
+        guide_index = []
+        # 遍历目标目录下的所有子文件夹
+        for source_dir in Path(directory).iterdir():
+            if source_dir.is_file():
+                file_name = source_dir.name
+                # 读取文件
+                content = read_markdown_to_string(source_dir)
+
+                # 获取meta信息
+                meta = get_meta(content)
+                # 获取描述
+                description = get_description_and_when_to_use(content)
+
+                guide_index.append({
+                    "name": meta['title'],
+                    "dirName": file_name,
+                    "description": description['description'],
+                    "whenToUse": description['when_to_use'],
+                    "atomId": meta['atomId'] if 'atomId' in meta else "",
+                })
+
+        json_path = os.path.join(doc_root, 'api-guide.json')
+        # 写入到目标文件
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(guide_index, f, ensure_ascii=False, indent=4)
+
+    def copy_playground_docs(directory):
+        # 遍历源根目录下的所有子文件夹
+        for source_dir in Path(directory).iterdir():
+            if source_dir.is_file():
+                # 检查文件名是否包含".en-US"（不区分大小写）
+                filename = source_dir.name
+                if ".en-us" in filename.lower():
+                    print(f"  跳过: {source_dir.name} (包含.en-US)")
+                    continue
+
     # 循环拷贝api文档
     list_all_api_docs(os.path.join(root_components, 'components'))
 
@@ -226,6 +283,11 @@ def extract_pro_components():
     copy_change_log()
 
     make_pro_components_info_json()
+
+    copy_guide()
+
+    make_guide_json(target_guide_path)
+
 
 def main():
     extract_pro_components()

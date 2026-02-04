@@ -1,0 +1,16 @@
+[
+    {
+        "name": "ProComponents 2.0 到 3.0 迁移指南",
+        "dirName": "migration-guide.md",
+        "description": "",
+        "whenToUse": "",
+        "atomId": ""
+    },
+    {
+        "name": "ProComponents API 变更总结 (2.0 → 3.0)",
+        "dirName": "api-changes.md",
+        "description": "",
+        "whenToUse": "",
+        "atomId": ""
+    }
+]
