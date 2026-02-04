@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.6] - 2026-02-04
+
+### Added
+- 📚 `list-guides` tool - List all available guide documentation
+- 📖 `get-guide-doc` tool - Get detailed guide documentation
+- 💾 Caching mechanism for improved performance
+- 🌐 Support for ES Module
+- 📦 Ready for npx usage
+
 ## [0.1.0] - 2026-01-28
 
 ### Added
