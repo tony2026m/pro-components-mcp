@@ -44,8 +44,8 @@ def extract_pro_components():
     target_guide_path = Path(os.path.join(doc_root, 'guide'))
     target_guide_path.mkdir(parents=True, exist_ok=True)
 
-    target_playground_path = Path(os.path.join(doc_root, 'playground'))
-    target_playground_path.mkdir(parents=True, exist_ok=True)
+    #target_playground_path = Path(os.path.join(doc_root, 'playground'))
+    #target_playground_path.mkdir(parents=True, exist_ok=True)
 
     # 循环遍历路径做成api文档
     def list_all_api_docs(directory):
@@ -201,7 +201,6 @@ def extract_pro_components():
         shutil.copy(resource_path, destination_path)
 
     def copy_guide():
-        shutil.rmtree(target_guide_path)  # 删除整个文件夹
         target_guide_path.mkdir(parents=True, exist_ok=True)
 
         for file_name in guide_files:
@@ -244,13 +243,22 @@ def extract_pro_components():
                 # 获取描述
                 description = get_description_and_when_to_use(content)
 
-                guide_index.append({
-                    "name": meta['title'],
-                    "dirName": file_name,
-                    "description": description['description'],
-                    "whenToUse": description['when_to_use'],
-                    "atomId": meta['atomId'] if 'atomId' in meta else "",
-                })
+                if file_name == 'api-changes.md':
+                    guide_index.append({
+                        "name": meta['title'],
+                        "dirName": file_name,
+                        "description": description['description'] if description['description'] else meta['title'],
+                        "whenToUse": description['when_to_use'],
+                        "atomId": "API变更,迁移检查清单,API 变更总结 (2.0 → 3.0),API变更(2.0 → 3.0),api-changes.md",
+                    })
+                elif file_name == 'migration-guide.md':
+                    guide_index.append({
+                        "name": meta['title'],
+                        "dirName": file_name,
+                        "description": "ProComponents 3.0 是一个主要版本升级，包含了一些破坏性变更。本指南将帮助你从 2.0 版本平滑迁移到 3.0 版本。",
+                        "whenToUse": description['when_to_use'],
+                        "atomId": "迁移指南,风险提示,API变更,migration-guide.md",
+                    })
 
         json_path = os.path.join(doc_root, 'api-guide.json')
         # 写入到目标文件
@@ -271,7 +279,7 @@ def extract_pro_components():
     list_all_api_docs(os.path.join(root_components, 'components'))
 
     # api文档合并
-    merge_api_docs(doc_root)
+    merge_api_docs(target_doc_path)
 
     # 循环拷贝示例代码文件
     list_all_demo_docs(root_demos)
