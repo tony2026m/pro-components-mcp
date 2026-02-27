@@ -1,6 +1,7 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import { z } from "zod";
 
-import { loadComponentsList } from "../utils/components";
+import {loadComponentsList} from "../utils/components";
 
 /** 列出所有可用的 Pro-Components 组件 */
 const registryTool = (server: McpServer) => {
@@ -24,8 +25,10 @@ export interface ComponentData {
 }
 \`
 `,
-      async () => {
-      const components = await loadComponentsList();
+    {lang: z.string().describe("指定获取信息的语言，zh:中文、en:英文，不输入默认为英文")},
+    async ({lang}) => {
+      const langStr = lang || "en";
+      const components = await loadComponentsList(langStr);
       return {
         content: [
           {

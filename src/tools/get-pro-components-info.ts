@@ -1,5 +1,6 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {getProComponentsInfo} from "../utils/components";
+import {z} from "zod";
 
 /** 获取组件示例代码 */
 const registryTool = (server: McpServer) => {
@@ -10,8 +11,10 @@ const registryTool = (server: McpServer) => {
 1. 用户询问什么是 Pro-Components（ProComponents）
 2. 用户需要知道 Pro-Components（ProComponents）的版本信息时
 `,
-    async () => {
-      const changelog = await getProComponentsInfo();
+    {lang: z.string().describe("指定获取信息的语言，zh:中文、en:英文，不输入默认为英文")},
+    async ({lang}) => {
+      const langStr = lang || "en";
+      const changelog = await getProComponentsInfo(langStr);
       return {
         content: [
           {

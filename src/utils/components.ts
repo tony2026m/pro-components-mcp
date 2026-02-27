@@ -10,9 +10,9 @@ const EXTRACTED_COMPONENTS_DIR = "components";
 const EXTRACTED_DEMOS_DIR = "demos";
 const EXTRACTED_GUIDE_DIR = "guide";
 
-const FILE_COMPONENTS_INDEX = 'components-index.json';
-const PRO_COMPONENTS_INFO = 'pro-components.json';
-const API_GUIDE = 'api-guide.json';
+const FILE_COMPONENTS_INDEX = 'components-index';
+const PRO_COMPONENTS_INFO = 'pro-components';
+const API_GUIDE = 'api-guide';
 
 // 获取当前文件所在目录的绝对路径
 const __filename = fileURLToPath(import.meta.url);
@@ -22,9 +22,9 @@ const __dirname = dirname(__filename);
 // 编译后的代码在 dist/cli.js，所以 __dirname 是 dist 目录
 const DOC_ROOT = join(__dirname, config['js']['doc_root']['pro']);
 
-const DOC_FILE_NAME = 'index.md';
+const DOC_FILE_NAME = 'index';
 
-const CHANGELOG_FILE_NAME = 'changelog.md';
+const CHANGELOG_FILE_NAME = 'changelog';
 
 const COMPONENT_LIST = 'component_list';
 
@@ -35,15 +35,17 @@ const COMPONENT_INFO = 'component_info';
 const GUIDES_LIST_KEY = 'guides_list';
 
 /** 加载ProComponents组件列表 */
-export async function loadComponentsList() {
+export async function loadComponentsList(lang: string) {
+  const cacheKey = COMPONENT_LIST + '_' + lang
   try {
-    if(hasKey(COMPONENT_LIST)) {
-      return getCache(COMPONENT_LIST);
+    if(hasKey(cacheKey)) {
+      return getCache(cacheKey);
     }
-    const componentList = await readFile(join(DOC_ROOT, FILE_COMPONENTS_INDEX), "utf-8");
+    const fileName = lang === 'en' ? `${FILE_COMPONENTS_INDEX}.en-US.json`: `${FILE_COMPONENTS_INDEX}.json`;
+    const componentList = await readFile(join(DOC_ROOT, fileName), "utf-8");
     const componentListJson = JSON.parse(componentList) as ComponentData[];
 
-    setCache(COMPONENT_LIST, componentListJson);
+    setCache(cacheKey, componentListJson);
 
     return componentListJson
   } catch (error) {
@@ -53,8 +55,8 @@ export async function loadComponentsList() {
 }
 
 /** 根据组件名称查找组件 */
-export async function findComponentByName(componentName: string) {
-  const components: ComponentData[] = await loadComponentsList();
+export async function findComponentByName(componentName: string, lang: string) {
+  const components: ComponentData[] = await loadComponentsList(lang);
   return components.find(
     (c: ComponentData) =>{
       const atomIds = c.atomId?.split(',')
@@ -66,23 +68,25 @@ export async function findComponentByName(componentName: string) {
 }
 
 /** 获取 ProComponents 特定组件文档 */
-export const getComponentDocumentation = async (componentName: string) => {
-  if(hasKey(componentName)) {
-    return getCache(componentName);
+export const getComponentDocumentation = async (componentName: string, lang: string) => {
+  const cacheKey = componentName + '_' + lang
+  if(hasKey(cacheKey)) {
+    return getCache(cacheKey);
   }
 
-  const component = await findComponentByName(componentName);
+  const component = await findComponentByName(componentName, lang);
   if (!component) {
-    return ` "${componentName}" 组件文档不存在`;
+    return ` "${cacheKey}" 组件文档不存在`;
   }
 
-  const docPath = join(DOC_ROOT, EXTRACTED_COMPONENTS_DIR, component.dirName, DOC_FILE_NAME);
+  const fileName = lang === 'en' ? `${DOC_FILE_NAME}.en-US.md`: `${DOC_FILE_NAME}.md`;
+  const docPath = join(DOC_ROOT, EXTRACTED_COMPONENTS_DIR, component.dirName, fileName);
 
   try {
     if (existsSync(docPath)) {
       const docResult = await readFile(docPath, "utf-8");
 
-      setCache(componentName, docResult);
+      setCache(cacheKey, docResult);
 
       return docResult
     }
@@ -119,14 +123,17 @@ export const getComponentExample = async (src: string) => {
 };
 
 /** 获取 ProComponents changelog文档 */
-export const getChangelog = async () => {
+export const getChangelog = async (lang: string) => {
+  const cacheKey = COMPONENT_CHANGELOG + '_' + lang
   try {
-    if(hasKey(COMPONENT_CHANGELOG)) {
-      return getCache(COMPONENT_CHANGELOG);
+    if(hasKey(cacheKey)) {
+      return getCache(cacheKey);
     }
-    const changelog = await readFile(join(DOC_ROOT, CHANGELOG_FILE_NAME), "utf-8");
 
-    setCache(COMPONENT_CHANGELOG, changelog);
+    const fileName = lang === 'en' ? `${CHANGELOG_FILE_NAME}.en-US.md`: `${CHANGELOG_FILE_NAME}.md`;
+    const changelog = await readFile(join(DOC_ROOT, fileName), "utf-8");
+
+    setCache(cacheKey, changelog);
 
     return changelog
   } catch (error) {
@@ -136,14 +143,17 @@ export const getChangelog = async () => {
 };
 
 /** 获取 ProComponents 介绍文档 */
-export const getProComponentsInfo = async () => {
+export const getProComponentsInfo = async (lang: string) => {
+  const cacheKey = COMPONENT_INFO + '_' + lang
   try {
-    if(hasKey(COMPONENT_INFO)) {
-      return getCache(COMPONENT_INFO);
+    if(hasKey(cacheKey)) {
+      return getCache(cacheKey);
     }
-    const proInfo = await readFile(join(DOC_ROOT, PRO_COMPONENTS_INFO), "utf-8");
 
-    setCache(COMPONENT_INFO, proInfo);
+    const fileName = lang === 'en' ? `${PRO_COMPONENTS_INFO}.en-US.json`: `${PRO_COMPONENTS_INFO}.json`;
+    const proInfo = await readFile(join(DOC_ROOT, fileName), "utf-8");
+
+    setCache(cacheKey, proInfo);
 
     return proInfo
   } catch (error) {
@@ -153,15 +163,18 @@ export const getProComponentsInfo = async () => {
 };
 
 /** 加载Guides组件列表 */
-export async function loadGuidesList() {
+export async function loadGuidesList(lang: string) {
+  const cacheKey = GUIDES_LIST_KEY + '_' + lang
   try {
-    if(hasKey(GUIDES_LIST_KEY)) {
-      return getCache(GUIDES_LIST_KEY);
+    if(hasKey(cacheKey)) {
+      return getCache(cacheKey);
     }
-    const guidesList = await readFile(join(DOC_ROOT, API_GUIDE), "utf-8");
+
+    const fileName = lang === 'en' ? `${API_GUIDE}.en-US.json`: `${API_GUIDE}.json`;
+    const guidesList = await readFile(join(DOC_ROOT, fileName), "utf-8");
     const guidesListJson = JSON.parse(guidesList) as ComponentData[];
 
-    setCache(GUIDES_LIST_KEY, guidesListJson);
+    setCache(cacheKey, guidesListJson);
 
     return guidesListJson
   } catch (error) {
@@ -171,8 +184,8 @@ export async function loadGuidesList() {
 }
 
 /** 根据名称查找指南 */
-export async function findGuideByName(name: string) {
-  const guides: ComponentData[] = await loadGuidesList();
+export async function findGuideByName(name: string, lang: string) {
+  const guides: ComponentData[] = await loadGuidesList(lang);
   return guides.find(
       (c: ComponentData) =>{
         const atomIds = c.atomId?.split(',')
@@ -184,12 +197,13 @@ export async function findGuideByName(name: string) {
 }
 
 /** 获取 ProComponents 特定组件文档 */
-export const getGuideDocumentation = async (name: string) => {
-  if(hasKey(name)) {
-    return getCache(name);
+export const getGuideDocumentation = async (name: string, lang: string) => {
+  const cacheKey = name + '_' + lang
+  if(hasKey(cacheKey)) {
+    return getCache(cacheKey);
   }
 
-  const guide = await findGuideByName(name);
+  const guide = await findGuideByName(name, lang);
   if (!guide) {
     return ` "${name}" 指南文档不存在`;
   }

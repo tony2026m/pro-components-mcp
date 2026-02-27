@@ -5,7 +5,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 
 const transport = new StdioClientTransport({
   command: "node",
-  args: ["D:\\workspace\\mcp\\pro-components-mcp\\dist\\cli.js"],
+  args: ["/Users/tony/workspace/project/mcp/pro-components-mcp/dist/cli.js"],
 });
 
 const client = new Client({
@@ -23,7 +23,7 @@ try {
   console.log("\n--- 列出组件 ---");
   const components = await client.callTool({
     name: "list-components",
-    arguments: {},
+    arguments: {lang: 'en'},
   });
   Array.isArray(components.content) && console.log(components.content[0].text);
 
@@ -33,6 +33,7 @@ try {
     name: "get-component-doc",
     arguments: {
       componentName: "ProFormDateTimePicker",
+      lang: 'en'
     },
   });
   Array.isArray(docs.content) && console.log(docs.content[0].text);
@@ -51,7 +52,7 @@ try {
   console.log("\n--- 获取组件变更日志 ---");
   const changelog = await client.callTool({
     name: "get-changelog",
-    arguments: {},
+    arguments: {lang: 'en'},
   });
   console.log(changelog);
 
@@ -59,7 +60,7 @@ try {
   console.log("\n--- 获取组件info ---");
   const proInfo = await client.callTool({
     name: "get-pro-components-info",
-    arguments: {},
+    arguments: {lang: 'en'},
   });
   console.log(proInfo);
 
@@ -67,7 +68,7 @@ try {
   console.log("\n--- 获取指南列表 ---");
   const guideList = await client.callTool({
     name: "list-guides",
-    arguments: {},
+    arguments: {lang: 'en'},
   });
   console.log(guideList);
 
@@ -75,7 +76,7 @@ try {
   console.log("\n--- 获取指南信息 ---");
   const guideInfo = await client.callTool({
     name: "get-guide-doc",
-    arguments: {name: 'API变更(2.0 → 3.0)'},
+    arguments: {name: 'API变更(2.0 → 3.0)', lang: ''},
   });
   console.log(guideInfo);
 } catch (error) {

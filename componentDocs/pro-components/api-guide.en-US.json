@@ -1,0 +1,16 @@
+[
+    {
+        "name": "ProComponents API Changes Summary (2.0 → 3.0)",
+        "dirName": "api-changes.en-US.md",
+        "description": "ProComponents API Changes Summary (2.0 → 3.0)",
+        "whenToUse": "",
+        "atomId": "ProComponents API Changes Summary (2.0 → 3.0),Version Requirements Changes,api-changes.en-US.md"
+    },
+    {
+        "name": "ProComponents 2.0 to 3.0 Migration Guide",
+        "dirName": "migration-guide.en-US.md",
+        "description": "ProComponents 3.0 is a major version upgrade that includes some breaking changes. This guide will help you smoothly migrate from version 2.0 to 3.0.",
+        "whenToUse": "",
+        "atomId": "ProComponents 2.0 to 3.0 Migration Guide,Preparation Before Upgrade,migration-guide.en-US.md"
+    }
+]

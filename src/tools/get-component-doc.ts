@@ -11,11 +11,13 @@ const registryTool = (server: McpServer) => {
 1. 用户询问如何使用特定组件
 2. 用户需要查看该组件的 api、props 属性，何时使用，示例代码等
 `,
-    { 
-      componentName: z.string().describe("Pro-Components 组件名称，例如：ProTable、ProForm、ProCard 等")
+    {
+      componentName: z.string().describe("Pro-Components 组件名称，例如：ProTable、ProForm、ProCard 等"),
+      lang: z.string().describe("指定获取信息的语言，zh:中文、en:英文，不输入默认为英文")
     },
-    async ({ componentName }) => {
-      const documentation = await getComponentDocumentation(componentName);
+    async ({ componentName, lang }) => {
+      const langStr = lang || "en";
+      const documentation = await getComponentDocumentation(componentName, langStr);
       return {
         content: [
           {

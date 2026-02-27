@@ -1,0 +1,156 @@
+[
+    {
+        "name": "LoginForm/Page",
+        "dirName": "login-form",
+        "description": "LoginForm and LoginFormPage are variants of ProForm. They are specially implemented to adapt to common login form layouts. They are suitable for various login scenarios and reduce layout pressure.",
+        "whenToUse": "",
+        "atomId": "LoginForm,PageForm"
+    },
+    {
+        "name": "StepsForm",
+        "dirName": "steps-form",
+        "description": "StepsForm manages the data of sub forms through a Provider, each word form is a complete set of data that is combined in StepsForm to form the final data. It also comes with a progress bar and a related API to manage the progress bar.\n\n> StepsForm inherits from Form.Provider, see the documentation [here](https://ant.design/components/form/#Form.Provider), the value of the transformed moment is a function provided by ProForm, so `onFormFinish` and `onFormChange` where the values are untransformed.",
+        "whenToUse": "",
+        "atomId": "StepsForm"
+    },
+    {
+        "name": "ProForm Advanced Form",
+        "dirName": "form",
+        "description": "ProForm adds some syntactic sugar and more layout settings to the original Form to help us develop a form quickly. Also add some default behaviors to make our forms work well by default.\n\nStep-by-step forms, Modal forms, Drawer forms, Query forms, Lightweight filters and many other layouts can cover most of the usage scenarios and get rid of the complicated and tedious form layout work and do more with less code.\n\n- If you want to set default values, please use `initialValues`, any direct use of component `value` and `onChange` may cause value binding failure.\n- If you want to link forms or do some dependencies, you can use render props mode, ProFormDependency is definitely the best choice\n- ProForm's onFinish, unlike antd's Form, is a Promise that will automatically set the button to load for you if you return normally.\n- If you want to listen to a value, it is recommended to use `onValuesChange`. Keeping a unidirectional data flow is a great benefit for both developers and maintainers\n- ProForm has no black technology, it's just a wrapper for antd's Form, if you want to use a custom component you can wrap it with Form.Item.\n\n```tsx | pure\n// Set overall default values\n<ProForm initialValues={obj} />\n\n// Set the individual control's\n<ProForm\n onValuesChange={(changeValues) => console.log(changeValues)}\n>\n  <ProFormText initialValue=\"prop\"/>\n</ProForm>\n\n// Interdependent component linkage\n<ProForm>\n  <Form.Item noStyle shouldUpdate>\n    {(form) => {\n      return (\n        <ProFormSelect\n          options={[\n            {\n              value: \"chapter\",\n              label: \"Effective when stamped\",\n            },\n          ]}\n          width=\"md\"\n          name=\"useMode\"\n          label={`with${form.getFieldValue(\"name\")}contract agreement effective mode`}\n        />\n      );\n    }}\n  </Form.Item>\n</ProForm>;\n\n\n// Using custom components\n<ProForm>\n  <Form.Item name=\"switch\" label=\"Switch\" valuePropName=\"checked\">\n    <Switch />\n  </Form.Item>\n</ProForm>\n```",
+        "whenToUse": "ProForm is the best choice when you want to implement a form quickly but don't want to spend too much time on layout.\n\nProForm is a degradable encapsulation based on antd Form, fully aligned with antd functionality, but adds some preset behaviors and multiple layouts on top of it. These layouts can be switched seamlessly and share a common API.\n\n| Layout                                          | Usage Scenario                                                                                                        |\n| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |\n| [ProForm](/components/form#proform)             | Standard Form, adds automatic `loading` in `onFinish` and automatic retrieval of default values ​​based on `request`. |\n| [ModalForm\\|DrawerForm](/components/modal-form) | Added `trigger` on the basis of ProForm, no need to maintain `open` status.                                           |\n| [QueryFilter](/components/query-filter)         | Generally used as a filter form, needs to be used with other data display components.                                 |\n| [LightFilter](/components/query-filter)         | Generally used as an inline built-in filter, such as card action bar and table action bar.                            |\n| [StepsForm](/components/steps-form)             | Step form, needs to be used with StepForm configuration.                                                              |\n\n- Form layout switching[外部示例代码]\n\t- description: \n\t- src: /form/layout-change.tsx\n\t- thumbnail: ",
+        "atomId": "ProForm"
+    },
+    {
+        "name": "ProFormFields",
+        "dirName": "field-set",
+        "description": "ProForm comes with a significant number of form items, which are essentially a combination of Form.Item and components. Each form item supports the `fieldProps` property to support setting the `props` of the input component. We support pass-through of `placeholder`, so you can set `placeholder` directly on the component.\n\nEach form item also supports `readonly`, which has different read-only styles for different components, making `readonly` display more friendly compared to `disable`. The generated dom is also smaller, e.g. ProFormDigit automatically formats decimal digits.\n\nProFormText is the product of FormItem + Input and can be analogous to the following code.\n\n```tsx | pure\nconst ProFormText = (props) => {\n  return (\n    <ProForm.Item {...props}>\n      <Input placeholder={props.placeholder} {...props.fieldProps} />\n    </ProForm.Item>\n  );\n};\n```\n\nSo the props we set for ProFormText are actually for Form.Item, and the fieldProps are for the included Input, remember.",
+        "whenToUse": "",
+        "atomId": "ProFormText,ProFormDigit,ProFormText.Password,ProFormTextArea,ProFormCaptcha,ProFormDatePicker,ProFormDateTimePicker,ProFormDateRangePicker,ProFormDateTimeRangePicker,ProFormSelect,ProFormTreeSelect,ProFormCheckbox,ProFormRadio.Group,ProFormSlider,ProFormSwitch,ProFormUploadButton,ProFormUploadDragger,ProFormMoney,ProFormSegmented"
+    },
+    {
+        "name": "CheckCard Multi-select Card",
+        "dirName": "check-card",
+        "description": "The CheckCard is a card that can contain various related descriptive information and can be selected. Features:\n\n- ① Can contain various related descriptive information, such as title, description, image, labels, etc.\n- ② Has a clear boundary.\n- ③ Has a clear selected state.",
+        "whenToUse": "- When you need to display multiple descriptive information of selected objects.\n- When the number of selected objects is not large.",
+        "atomId": "CheckCard"
+    },
+    {
+        "name": "Schema Form JSON Form",
+        "dirName": "schema-form",
+        "description": "SchemaForm is a tool that generates forms based on JSON Schema. SchemaForm maps to different [form items](/components/schema) based on `valueType`.\n\n> **Tips**: If you encounter performance issues or have higher performance requirements, please refer to the [High Performance Code Example](#high-performance-mode).",
+        "whenToUse": "",
+        "atomId": "BetaSchemaForm"
+    },
+    {
+        "name": "ProCard",
+        "dirName": "card",
+        "description": "In-page container cards that provide standard card styles, card segmentation and grid layout capabilities. ProCard creatively combines `Col`, `Row`, `Card`, `Tabs` and other component implementations together, allowing you to complete various card-related layouts with only one component.\n\n- If you also need to use it with the chart, you can refer to the `StatisticCard` indicator card component, which is a further package of ProCard.\n- If you also need to encapsulate `ProCard`, note that you need to expose the static property of `isProCard=true` so that ProCard can be recognized as the same element.",
+        "whenToUse": "- When a standard card is required to hold the content.\n- When multiple card grids are required, gutter layout.\n- When in-card split layout is required.\n- When the card is required to be foldable.",
+        "atomId": "ProCard"
+    },
+    {
+        "name": "StatisticCard Indicator Card",
+        "dirName": "statistic-card",
+        "description": "The Indicator Card combines statistical values to display the core indicators of a certain topic. It integrates with [Ant Design Charts](https://charts.ant.design/) to enrich the numerical content and meet the requirements of most data display scenarios.\n\n> Note: All chart examples in the demo can be found on the official website of charts. Here, only images are used instead of actual code examples, so there is no related interaction.\n\n> If the content of the card is expanded, please set the content width to 100% or set a fixed width.",
+        "whenToUse": "- 1. Display important information in important positions within a page;\n- 2. Display system functions on overview pages.",
+        "atomId": "StatisticCard"
+    },
+    {
+        "name": "Structured data",
+        "dirName": "group",
+        "description": "We also provide components for structured data input:\n\n- ProFormList: Used for inputting structured multidimensional array data.\n- ProFormFieldSet: Used for inputting structured one-dimensional array data.\n- ProFormDependency: Components for managing data dependencies.",
+        "whenToUse": "",
+        "atomId": "ProFormList"
+    },
+    {
+        "name": "ProSkeleton",
+        "dirName": "skeleton",
+        "description": "> This component is an internal component, please do not use it directly.\n\nPage-level skeleton screen, does not support customization",
+        "whenToUse": "",
+        "atomId": "ProSkeleton"
+    },
+    {
+        "name": "ProLayout Advanced Layout",
+        "dirName": "layout",
+        "description": "ProLayout provides a standard, yet flexible, middle and backend layout, with one-click layout switching and automatic menu generation. It can be used with PageContainer to automatically generate breadcrumbs, page headers, and provide a low-cost solution to access the footer toolbar.",
+        "whenToUse": "ProLayout can be used to reduce layout costs when content needs to be carried on a page.\n\n### Use with umi plugins\n\nProLayout works best with umi. umi automatically injects the routes from config.ts into the configured layout for us, so we don't have to write the menus by hand.\n\nProLayout extends umi's router configuration, adding name, icon, locale, hideInMenu, hideChildrenInMenu and other configurations, so that it is easier to generate menus in one place. The data format is as follows.\n\n```ts | pure\nexport interface MenuDataItem {\n  /** @name submenu */\n  routes?: MenuDataItem[];\n  /** @name Hide child nodes in the menu */\n  hideChildrenInMenu?: boolean;\n  /** @name hideSelf and children in menu */\n  hideInMenu?: boolean;\n  /** @name Icon of the menu */\n  icon?: React.ReactNode;\n  /** @name Internationalization key for custom menus */\n  locale?: string | false;\n  /** @name The name of the menu */\n  name?: string;\n  /** @name is used to calibrate the selected value, default is path */\n  key?: string;\n  /** @name disable menu option */\n  disabled?: boolean;\n  /** @name path */\n  path?: string;\n  /**\n   * When this node is selected, the node of parentKeys is also selected\n   *\n   * @name custom parent node\n   */\n  parentKeys?: string[];\n  /** @name hides itself and elevates child nodes to its level */\n  flatMenu?: boolean;\n  /** @name specify the external link opening form, same as a tag */\n  target?: string;\n\n  [key: string]: any;\n}\n```\n\nProLayout will automatically select the menu based on `location.pathname` and automatically generate the corresponding breadcrumbs. If you don't want to use it, you can configure `selectedKeys` and `openKeys` yourself for controlled configuration.",
+        "atomId": "ProLayout"
+    },
+    {
+        "name": "Query/LightFilter",
+        "dirName": "query-filter",
+        "description": "QueryFilter and LightFilter solve the problem of using the form with other components, such as Table, List, etc., and avoid complicated style settings. QueryFilter and LightFilter are supported by default in ProTable as their own filter forms.\n\n### Query Filter\n\n- [外部示例代码]\n\t- description: \n\t- src: /form/QueryFilter/query-filter.tsx\n\t- thumbnail: \n\n### Query filter - put away by default\n\n- [外部示例代码]\n\t- description: \n\t- src: /form/QueryFilter/query-filter-collapsed.tsx\n\t- thumbnail: \n\n### query-filter-vertical-layout\n\n- [外部示例代码]\n\t- description: \n\t- src: /form/QueryFilter/query-filter-vertical.tsx\n\t- thumbnail: \n\n### query-filter-search\n\n- [外部示例代码]\n\t- description: \n\t- src: /form/QueryFilter/search-filter.tsx\n\t- thumbnail: \n\n### query-filter-defaultFormItemsNumber\n\n- [外部示例代码]\n\t- description: \n\t- src: /form/QueryFilter/query-filter-defaultFormItemsNumber.tsx\n\t- thumbnail: \n\n### Lightweight filtering\n\n- [外部示例代码]\n\t- description: \n\t- src: /form/QueryFilter/light-filter.tsx\n\t- thumbnail: \n\n### Light filtering - border mode\n\n- [外部示例代码]\n\t- description: \n\t- src: /form/QueryFilter/light-filter-bordered.tsx\n\t- thumbnail: \n\n### Light filtering - collapsed mode\n\nAll options in collapsed mode are collapsed by default, with or without values, and the control's `secondary` will no longer be valid.\n\n- [外部示例代码]\n\t- description: \n\t- src: /form/QueryFilter/light-filter-collapse.tsx\n\t- thumbnail: ",
+        "whenToUse": "",
+        "atomId": "QueryFilter,LightFilter"
+    },
+    {
+        "name": "ProFormDependency",
+        "dirName": "dependency",
+        "description": "Data linkage in Form is very common, so we encapsulate a component for data processing.",
+        "whenToUse": "",
+        "atomId": "ProFormDependency"
+    },
+    {
+        "name": "ProDescriptions Definition List",
+        "dirName": "descriptions",
+        "description": "",
+        "whenToUse": "The advanced description list component provides a more convenient and faster solution to build a description list.\n\nProDescriptions was born to solve the problem of writing a lot of boilerplate code of Descriptions in the project, so many common logics are encapsulated in it. Writing a Descriptions in React will inevitably need to define some similar properties. So ProDescriptions encapsulates the request network by default, and the logic shown in the columns column.\n\nFor example, ProDescriptions encapsulates the behavior of the request network, and ProDescriptions will bring the data in props.params into the request by default. If the interface happens to be the same as our definition, it will be very simple to implement a query.\n\n```tsx | pure\nimport   request from 'umi-request';\n\nconst fetchData = (params) =>\n  request<{\n    data: T{};\n  }>('https://proapi.azurewebsites.net/github/issues', {\n    params,\n  });\n\nconst keyWords = \"Ant Design\"\n\n<ProDescriptions<T,U> request={fetchData} />;\n```\n\nWe agree that request has a parameter, and `params` will carry the `params` in props. The types are as follows:\n\n```tsx | pure\n(params: U) => RequestData;\n```\n\nThere are also some conventions on the ProDescriptions of the results returned by the request, the types are as follows:\n\n```tsx | pure\ninterface RequestData {\n  data: Datum{};\n  success: boolean;\n}\n```",
+        "atomId": "ProDescriptions"
+    },
+    {
+        "name": "ProField Atomic Component",
+        "dirName": "field",
+        "description": "> This component is an internal component, please do not use it directly.\n\nIt is an atomic information component that standardizes field definitions across components such as ProForm, ProTable, ProList, and Filter.",
+        "whenToUse": "",
+        "atomId": ""
+    },
+    {
+        "name": "DragSortTable",
+        "dirName": "drag-sort-table",
+        "description": "`DragSortTable` uses [dnd-kit](https://dndkit.com/) for sorting, you need to provide `rowKey` to determine the unique value of the data, otherwise it will not work properly.",
+        "whenToUse": "",
+        "atomId": "DragSortTable"
+    },
+    {
+        "name": "ProTable Advanced Table",
+        "dirName": "table",
+        "description": "ProTable was created to solve the problem of having to write a lot of sample code for tables in a project, so a lot of common logic was encapsulated in it. These wrappers can be simply categorized as pre-defined behaviors and pre-defined logic.\n\nThanks to ProForm's capabilities, ProForm can take many forms, switch between query form types, set up deformations to become a simple Form form, perform new creation, etc.\n\n![layout\n](https://gw.alipayobjects.com/zos/antfincdn/Hw%26ryTueTW/bianzu%2525204.png)\n\nIf you are an internal network user, you are welcome to use our [TechUI Studio](https://techui-studio.antfin-inc.com/) visual configuration to generate initial code.",
+        "whenToUse": "When your forms need to interact with the server or need multiple cell styles, ProTable is the right choice.",
+        "atomId": "ProTable"
+    },
+    {
+        "name": "PageContainer Page Container",
+        "dirName": "page-container",
+        "description": "PageContainer is a page container component that provides a unified page layout structure. It includes standardized page elements such as page title, breadcrumb navigation, and page operation area, allowing you to quickly build pages with consistent layouts.\n\n- Automatically handles page title and breadcrumb navigation\n- Supports page-level operation buttons and toolbars\n- Provides standardized page layout structure\n- Supports advanced features like watermarks and loading states",
+        "whenToUse": "- When you need unified page title and breadcrumb navigation\n- When you need page-level operation buttons\n- When you need standardized page layout\n- When you need page-level loading states\n- When you need page watermark functionality",
+        "atomId": "PageContainer"
+    },
+    {
+        "name": "PageHeader Page Header",
+        "dirName": "page-header",
+        "description": "A header with common actions and design elements built in.",
+        "whenToUse": "PageHeader can be used to highlight the page topic, display important information about the page, and carry the action items related to the current page (including page-level operations, inter-page navigation, etc.) It can also be used as inter-page navigation.",
+        "atomId": ""
+    },
+    {
+        "name": "ProList Advanced List",
+        "dirName": "list",
+        "description": "",
+        "whenToUse": "Based on ProTable implementation, it can be considered as a special case of ProTable, which can be used when completing a standard list.",
+        "atomId": "ProList"
+    },
+    {
+        "name": "Modal/DrawerForm",
+        "dirName": "modal-form",
+        "description": "ModalForm and DrawerForm are a variant of ProForm, which is still a form in essence. So you can't customize the footer with `footer`, if you want to define the footer you need to use `submitter.render` to customize it. These two forms behave like ProForm and can be modified directly from ProForm.\n\nModalForm and DrawerForm both provide triggers to reduce state usage, if you need to use state control you can use `open` and `onOpenChange` to control opening and closing.",
+        "whenToUse": "",
+        "atomId": "ModalForm,DrawerForm"
+    },
+    {
+        "name": "EditableProTable",
+        "dirName": "editable-table",
+        "description": "EditableProTable is essentially the same as ProTable, with a few presets added to make it easier to use EditableProTable, turning off the query form and action bar, and modifying value and onChange to make it easy to inherit from antd's Form.",
+        "whenToUse": "",
+        "atomId": "EditableProTable"
+    }
+]
